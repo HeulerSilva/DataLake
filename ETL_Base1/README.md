@@ -44,7 +44,7 @@ ETL_Base1/
 - Preserves the nested structure for efficient querying
 
 ### 3. Load
-- Writes the DataFrame to a Delta Lake table: `db_heuler.distritos_ibge`
+- Writes the DataFrame to a Delta Lake table: `etl_project1.distritos_ibge`
 - Uses `overwrite` mode to ensure data freshness
 - Stores data in the Databricks unified catalog for easy access and governance
 
@@ -60,7 +60,7 @@ SELECT
     municipio.microrregiao.nome AS microrregiao,
     municipio.microrregiao.mesorregiao.nome AS mesorregiao,
     municipio.microrregiao.mesorregiao.UF.nome AS uf
-FROM db_heuler.distritos_ibge
+FROM etl_project1.distritos_ibge
 WHERE id = 520005005;
 ```
 
@@ -85,7 +85,7 @@ This approach:
 
 ## Table Schema
 
-**Table:** `db_heuler.distritos_ibge`
+**Table:** `etl_project1.distritos_ibge`
 
 | Column Name | Data Type | Description |
 |-------------|-----------|-------------|
@@ -107,7 +107,7 @@ This approach:
 ### Query All Districts in a Specific State
 ```sql
 SELECT id, nome, municipio.nome AS municipio
-FROM db_heuler.distritos_ibge
+FROM etl_project1.distritos_ibge
 WHERE municipio.microrregiao.mesorregiao.UF.sigla = 'SP'
 ```
 
@@ -116,7 +116,7 @@ WHERE municipio.microrregiao.mesorregiao.UF.sigla = 'SP'
 SELECT 
     municipio.microrregiao.mesorregiao.UF.regiao.nome AS regiao,
     COUNT(*) AS total_distritos
-FROM db_heuler.distritos_ibge
+FROM etl_project1.distritos_ibge
 GROUP BY municipio.microrregiao.mesorregiao.UF.regiao.nome
 ORDER BY total_distritos DESC
 ```
